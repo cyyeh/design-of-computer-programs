@@ -63,24 +63,19 @@ def bowling(balls):
     return score
 
 
-'''
-reference answers
-'''
-
-
-def bowling_ref(balls):
+def bowling2(balls):
     "Compute the score for one player's game of bowling."
+    def score_frame_ref(balls):
+        "Return (score, balls): the score for this frame and the remaining balls."
+        n_used, n_scoring = (
+            (1, 3) if balls[0] == 10  # strike
+            else (2, 3) if balls[0] + balls[1] == 10  # spare
+            else (2, 2)
+        )  # open frame
+        score = sum(balls[:n_scoring])
+        balls[:n_used] = []
+        return score
     return sum(score_frame_ref(balls) for frame in range(10))
-
-
-def score_frame_ref(balls):
-    "Return (score, balls): the score for this frame and the remaining balls."
-    n_used, n_scoring = ((1, 3) if balls[0] == 10  # strike
-                         else (2, 3) if balls[0] + balls[1] == 10  # spare
-                         else (2, 2))  # open frame
-    score = sum(balls[:n_scoring])
-    balls[:n_used] = []
-    return score
 
 
 def test_bowling():
@@ -92,6 +87,15 @@ def test_bowling():
     assert 200 == bowling([10, 5, 5] * 5 + [10])
     assert 11 == bowling([0, 0] * 9 + [10, 1, 0])
     assert 12 == bowling([0, 0] * 8 + [10, 1, 0])
+
+    assert 0 == bowling2([0] * 20)
+    assert 20 == bowling2([1] * 20)
+    assert 80 == bowling2([4] * 20)
+    assert 190 == bowling2([9, 1] * 10 + [9])
+    assert 300 == bowling2([10] * 12)
+    assert 200 == bowling2([10, 5, 5] * 5 + [10])
+    assert 11 == bowling2([0, 0] * 9 + [10, 1, 0])
+    assert 12 == bowling2([0, 0] * 8 + [10, 1, 0])
 
 
 test_bowling()
