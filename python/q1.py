@@ -63,24 +63,19 @@ def bowling(balls):
     return score
 
 
-'''
-reference answers
-'''
-
-
-def bowling_ref(balls):
+def bowling2(balls):
     "Compute the score for one player's game of bowling."
+    def score_frame_ref(balls):
+        "Return (score, balls): the score for this frame and the remaining balls."
+        n_used, n_scoring = (
+            (1, 3) if balls[0] == 10  # strike
+            else (2, 3) if balls[0] + balls[1] == 10  # spare
+            else (2, 2)
+        )  # open frame
+        score = sum(balls[:n_scoring])
+        balls[:n_used] = []
+        return score
     return sum(score_frame_ref(balls) for frame in range(10))
-
-
-def score_frame_ref(balls):
-    "Return (score, balls): the score for this frame and the remaining balls."
-    n_used, n_scoring = ((1, 3) if balls[0] == 10  # strike
-                         else (2, 3) if balls[0] + balls[1] == 10  # spare
-                         else (2, 2))  # open frame
-    score = sum(balls[:n_scoring])
-    balls[:n_used] = []
-    return score
 
 
 def test_bowling():
