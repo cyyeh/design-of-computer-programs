@@ -65,7 +65,7 @@ def bowling(balls):
 
 def bowling2(balls):
     "Compute the score for one player's game of bowling."
-    def score_frame_ref(balls):
+    def score_frame(balls):
         "Return (score, balls): the score for this frame and the remaining balls."
         n_used, n_scoring = (
             (1, 3) if balls[0] == 10  # strike
@@ -75,7 +75,7 @@ def bowling2(balls):
         score = sum(balls[:n_scoring])
         balls[:n_used] = []
         return score
-    return sum(score_frame_ref(balls) for frame in range(10))
+    return sum(score_frame(balls) for frame in range(10))
 
 
 def test_bowling():
